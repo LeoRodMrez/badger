@@ -1,2 +1,2 @@
-# Honey Bager
-Honey Badger looks for uncontrolled possible panics in your go functions
+# Honey Badger
+Honey Badger helps you find uncontrolled possible panics in your go functions.
