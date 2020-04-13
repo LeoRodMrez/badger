@@ -1,21 +1,21 @@
 package badger
 
 import (
-	"honey-badger/processor"
+	"badger/processor"
 )
 
 //Sniff validates the input and starts the panic search
 func Sniff(f interface{}) error {
-	testable := processor.SniffableFunc{
+	sniffable := processor.Sniffer{
 		Function: f,
 	}
-
-	err := testable.ValidateInput()
+	// input validation, sniffable.Function must be a go function
+	err := sniffable.ValidateInput()
 	if err != nil {
 		return err
 	}
-
-	err = testable.SniffFunction()
+	// start searching for panics
+	err = sniffable.SniffFunction()
 	if err != nil {
 		return err
 	}

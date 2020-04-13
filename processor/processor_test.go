@@ -9,13 +9,32 @@ import (
 func TestSniffFunction(t *testing.T) {
 	testSet := []struct {
 		Name          string
-		GivenInput    SniffableFunc
+		GivenInput    Sniffer
 		ExpectedError bool
 		ErrorMessage  string
 	}{
 		{
+			Name: "(int)",
+			GivenInput: Sniffer{
+				Function: func(a int) int {
+					return a
+				},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(int) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a int) int {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
 			Name: "(int,int)",
-			GivenInput: SniffableFunc{
+			GivenInput: Sniffer{
 				Function: func(a, b int) int {
 					return a + b
 				},
@@ -24,13 +43,49 @@ func TestSniffFunction(t *testing.T) {
 		},
 		{
 			Name: "(int,int) with explicit panic",
-			GivenInput: SniffableFunc{
+			GivenInput: Sniffer{
 				Function: func(a, b int) int {
 					panic("panicking")
 				},
 			},
 			ExpectedError: true,
-			ErrorMessage: "panic found",
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(string)",
+			GivenInput: Sniffer{
+				Function: func(a string) {
+				},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(string) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a string) {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(int,string)",
+			GivenInput: Sniffer{
+				Function: func(a int,b string) {
+				},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(int,string) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a int,b string) int {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
 		},
 	}
 
@@ -38,10 +93,10 @@ func TestSniffFunction(t *testing.T) {
 		t.Run(fmt.Sprintf("TestSniffFunction-%v", ts.Name), func(t *testing.T) {
 			response := ts.GivenInput.SniffFunction()
 			if ts.ExpectedError {
-				require.Error(t,response)
+				require.Error(t, response)
 				require.Contains(t, response.Error(), "panic found")
 			} else {
-				require.NoError(t,response)
+				require.NoError(t, response)
 			}
 		})
 	}

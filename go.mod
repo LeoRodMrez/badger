@@ -1,4 +1,4 @@
-module honey-badger
+module badger
 
 go 1.14
 

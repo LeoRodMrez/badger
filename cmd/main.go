@@ -1,21 +1,24 @@
 package main
 
 import (
+	"badger"
 	"fmt"
 )
 
 func main() {
 	fmt.Println("Hi I'm the Honey Badger, lets find some panics!")
-	/*err := badger.Sniff(sum)
+
+	err := badger.Sniff(myFunc)
 	if err != nil {
-		fmt.Printf("error: %v", err)
-	}*/
+		fmt.Println(err.Error())
+	} else {
+		fmt.Println("NOTHING")
+	}
 }
 
-
-/*
-func sum(a, b int) (int, int) {
-	fmt.Printf("\nadding %v to %v equals %v", a, b, a+b)
-	panic("\nim panicking")
-	return a + b, a
-}*/
+func myFunc(a int, b string, c bool, j string) bool {
+	if a == 0 && b == "" && !c && j == "" {
+		panic("")
+	}
+	return true
+}
