@@ -3,7 +3,7 @@ Badger helps you find uncontrolled possible panics in your go functions.
 
 It performs brute force executions on a given method using zero and random values. If a *panic* arises from the given method, an error will be returned with corresponding information.
 
-###How to use me: 
+### How to use me: 
 
 Consider this Sum function: 
 
