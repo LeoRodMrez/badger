@@ -1,7 +1,7 @@
 # Badger
 Badger helps you find uncontrolled possible panics in your go functions.
 
-###How to use me: 
+### How to use me: 
 
 Consider this Sum function: 
 
