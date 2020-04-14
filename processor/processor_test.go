@@ -16,16 +16,14 @@ func TestSniffFunction(t *testing.T) {
 		{
 			Name: "(int)",
 			GivenInput: Sniffer{
-				Function: func(a int) int {
-					return a
-				},
+				Function: func(a int) {},
 			},
 			ExpectedError: false,
 		},
 		{
 			Name: "(int) with explicit panic",
 			GivenInput: Sniffer{
-				Function: func(a int) int {
+				Function: func(a int) {
 					panic("panicking")
 				},
 			},
@@ -35,16 +33,14 @@ func TestSniffFunction(t *testing.T) {
 		{
 			Name: "(int,int)",
 			GivenInput: Sniffer{
-				Function: func(a, b int) int {
-					return a + b
-				},
+				Function: func(a, b int) {},
 			},
 			ExpectedError: false,
 		},
 		{
 			Name: "(int,int) with explicit panic",
 			GivenInput: Sniffer{
-				Function: func(a, b int) int {
+				Function: func(a, b int) {
 					panic("panicking")
 				},
 			},
@@ -54,8 +50,7 @@ func TestSniffFunction(t *testing.T) {
 		{
 			Name: "(string)",
 			GivenInput: Sniffer{
-				Function: func(a string) {
-				},
+				Function: func(a string) {},
 			},
 			ExpectedError: false,
 		},
@@ -72,15 +67,82 @@ func TestSniffFunction(t *testing.T) {
 		{
 			Name: "(int,string)",
 			GivenInput: Sniffer{
-				Function: func(a int,b string) {
-				},
+				Function: func(a int,b string) {},
 			},
 			ExpectedError: false,
 		},
 		{
 			Name: "(int,string) with explicit panic",
 			GivenInput: Sniffer{
-				Function: func(a int,b string) int {
+				Function: func(a int,b string) {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(*int)",
+			GivenInput: Sniffer{
+				Function: func(a *int) {},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(*int) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a *int) {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(*string)",
+			GivenInput: Sniffer{
+				Function: func(a *string) {},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(*string) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a *string) {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(*bool)",
+			GivenInput: Sniffer{
+				Function: func(a *bool) {},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(*bool) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a *bool) {
+					panic("panicking")
+				},
+			},
+			ExpectedError: true,
+			ErrorMessage:  "panic found",
+		},
+		{
+			Name: "(*int,*bool,*string)",
+			GivenInput: Sniffer{
+				Function: func(a *int,b *bool,c *string) {},
+			},
+			ExpectedError: false,
+		},
+		{
+			Name: "(*int,*bool,*string) with explicit panic",
+			GivenInput: Sniffer{
+				Function: func(a *int,b *bool,c *string) {
 					panic("panicking")
 				},
 			},

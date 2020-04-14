@@ -17,7 +17,10 @@ type Sniffer struct {
 func (f *Sniffer) SniffFunction() error {
 	//random search
 	for i := 0; i < 1000; i++ {
-		inParams := f.buildParams()
+		inParams, err := f.buildParams()
+		if err != nil {
+			panic(err.Error())
+		}
 		refParams := getReflectValueParams(inParams)
 		if f.executeFunc(refParams) {
 			name := helper.GetFunctionName(f.Function)
@@ -37,15 +40,19 @@ func getReflectValueParams(in []interface{}) []reflect.Value {
 }
 
 // buildParams builds the slice with parameters for further execution
-func (f *Sniffer) buildParams() []interface{} {
+func (f *Sniffer) buildParams() ([]interface{}, error) {
 	function := reflect.TypeOf(f.Function)
 	paramsNumber := function.NumIn()
 	in := make([]interface{}, paramsNumber)
 
 	for i := 0; i < paramsNumber; i++ {
-		in[i] = generateParam(function.In(i))
+		p, err := generateParam(function.In(i))
+		if err != nil {
+			return nil, err
+		}
+		in[i] = p
 	}
-	return in
+	return in, nil
 }
 
 // buildZeroValuesParams builds the slice with zero value parameters for further execution
@@ -60,8 +67,9 @@ func (f *Sniffer) buildZeroValuesParams() []interface{} {
 	return in
 }
 
-func generateParam(t reflect.Type) interface{} {
+func generateParam(t reflect.Type) (interface{}, error) {
 	var value interface{}
+	var err error
 
 	switch t.Kind() {
 	case reflect.Int:
@@ -70,9 +78,34 @@ func generateParam(t reflect.Type) interface{} {
 		value = helper.GetRandBool()
 	case reflect.String:
 		value = helper.GetRandString()
+	case reflect.Ptr:
+		value, err = generateValueForPointer(t.Elem())
+		if err != nil {
+			return nil, err
+		}
+	default:
+		return nil, errors.New(fmt.Sprintf("param kind not supported: %v", t.Kind()))
 	}
 
-	return value
+	return value, nil
+}
+
+// generateValueForPointer generates a random pointer for a given reflect type
+func generateValueForPointer(t reflect.Type) (interface{}, error) {
+	var value interface{}
+
+	switch t.Kind() {
+	case reflect.Int:
+		value = helper.GetRandomIntPtr(-1000,1000)
+	case reflect.Bool:
+		value = helper.GetRandBoolPtr()
+	case reflect.String:
+		value = helper.GetRandStringPtr()
+	default:
+		return nil, errors.New(fmt.Sprintf("param kind not supported: pointer to %v", t.Kind()))
+	}
+
+	return value, nil
 }
 
 // executeFunc executes the given function and captures the panic
