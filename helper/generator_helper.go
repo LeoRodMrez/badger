@@ -1,9 +1,10 @@
 package helper
 
 import (
-	"badger/constants"
 	"math/rand"
 	"time"
+
+	"github.com/LeoRodMrez/badger/constants"
 )
 
 // GetRandInt returns a random integer given a min and a max range
@@ -25,11 +26,13 @@ func GetRandBool() bool {
 	}
 }
 
-func GetRandString(length int) string {
+func GetRandString() string {
 	if willReturnZeroValue() {
 		return ""
 	}
-	b := make([]byte, length)
+	rand.Seed(time.Now().UnixNano())
+	randLength := rand.Intn(30-1+1) + 1
+	b := make([]byte, randLength)
 	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := range b {
 		b[i] = constants.Charset[seededRand.Intn(len(constants.Charset))]

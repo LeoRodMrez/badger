@@ -1,8 +1,10 @@
 package main
 
 import (
-	"badger"
 	"fmt"
+	"strings"
+
+	"github.com/LeoRodMrez/badger"
 )
 
 func main() {
@@ -17,7 +19,7 @@ func main() {
 }
 
 func myFunc(a int, b string, c bool, j string) bool {
-	if a == 0 && b == "" && !c && j == "" {
+	if a == 0 && strings.Contains(b,"j") && !c && strings.Contains(b,"%") {
 		panic("")
 	}
 	return true

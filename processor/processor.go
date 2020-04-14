@@ -1,10 +1,11 @@
 package processor
 
 import (
-	"badger/helper"
 	"errors"
 	"fmt"
 	"reflect"
+
+	"github.com/LeoRodMrez/badger/helper"
 )
 
 // Sniffer encapsulates the function
@@ -68,7 +69,7 @@ func generateParam(t reflect.Type) interface{} {
 	case reflect.Bool:
 		value = helper.GetRandBool()
 	case reflect.String:
-		value = helper.GetRandString(15)
+		value = helper.GetRandString()
 	}
 
 	return value

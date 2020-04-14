@@ -1,7 +1,7 @@
 package badger
 
 import (
-	"badger/processor"
+	"github.com/LeoRodMrez/badger/processor"
 )
 
 //Sniff validates the input and starts the panic search
