@@ -1,4 +1,4 @@
-module badger
+module github.com/LeoRodMrez/badger
 
 go 1.14
 
