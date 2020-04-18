@@ -1,22 +1,71 @@
 # Badger
-Badger helps you find uncontrolled possible panics in your go functions.
+Badger helps you find uncontrolled panics in your go functions.
 
-It performs brute force executions on a given method using zero and random values. If a *panic* arises from the given method, an error will be returned with corresponding information.
+It analyzes the parameters of a given go function and performs executions using zero, limit-range and conflicting values. If a *panic* arises from the function, an error will be returned with the corresponding information.
+
+The ultimate goal of Badger is to enhance defensive programming on your code.
 
 ### How to use me: 
 
-Consider this Sum function: 
+Download me: 
+
+```bash
+go get github.com/LeoRodMrez/badger
+```
+
+Import me into your project:
 
 ```golang
-func Sum(a,b int) int {
-    return a + b
+import "github.com/LeoRodMrez/badger"
+```
+
+##### Example: 
+
+Consider this go function: 
+
+```golang
+func getLetter(a string,b int) string {
+    return string(a[b])
 }
 ```
 
-Once imported, we can look for panics with Badger like this: 
+We can look for panics with Badger like this: 
 
 ```golang
-err := badger.Sniff(Sum)
+err := badger.Sniff(getLetter)
 ```
 
 This will return a descriptive error if Badger was able to cause an uncontrolled panic in the function. As simple as that...
+
+So you could add a test to your project as follows:
+
+```golang
+func TestPanicsWithBadger(t *testing.T) {
+    t.Run("BadgerTest"), func(t *testing.T) {
+        hasPanicked := badger.Sniff(getLetter)
+        require.Nil(t, hasPanicked, "Oops! Looks like this function is panicking...")
+    })
+}
+```
+Making sure your go functions stay away from uncontrolled panics, which can cause a lot of trouble.
+
+You can also perform brute force executions on your go function with:
+
+```golang
+err := badger.BruteForceSniff(getLetter)
+```
+
+But keep in mind that brute force panic search is strongly based on random value generation so it may not be the best approach if you want a reproducible test environment.
+
+### Currently supported parameter types:
+
+```golang
+int
+bool
+string
+*int
+*bool
+*string
+```
+
+The maximum number of parameter supported is 5. Any violation on the number or the type of the parameters will also return an error.

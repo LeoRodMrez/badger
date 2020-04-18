@@ -153,7 +153,7 @@ func TestSniffFunction(t *testing.T) {
 
 	for _, ts := range testSet {
 		t.Run(fmt.Sprintf("TestSniffFunction-%v", ts.Name), func(t *testing.T) {
-			response := ts.GivenInput.SniffFunction()
+			response := ts.GivenInput.BruteForceSniffFunction()
 			if ts.ExpectedError {
 				require.Error(t, response)
 				require.Contains(t, response.Error(), "panic found")
