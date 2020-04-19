@@ -72,7 +72,7 @@ func GetRandStringPtr() *string {
 		return nil
 	}
 	rand.Seed(time.Now().UnixNano())
-	randLength := rand.Intn(30-1+1) + 1
+	randLength := rand.Intn(50-1+1) + 1
 	b := make([]byte, randLength)
 	seededRand := rand.New(rand.NewSource(time.Now().UnixNano()))
 	for i := range b {

@@ -5,7 +5,7 @@ const (
 	Charset = "abcdefghijklmnopqrstuvwxyz" +
 		"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789" +
 		"0123456789" +
-		"~=+%^*/()[]{}/!@#$?|" +
+		"~=+%^*/()[]{}/!@#$?|&-_" +
 		"                    "
 
 	// MaxUint is the maximum value for a uint variable

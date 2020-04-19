@@ -38,7 +38,7 @@ func (f *Sniffer) buildBruteForceParams() ([]interface{}, error) {
 	in := make([]interface{}, paramsNumber)
 
 	for i := 0; i < paramsNumber; i++ {
-		p, err := generateParam(function.In(i))
+		p, err := generateBruteForceParam(function.In(i))
 		if err != nil {
 			return nil, err
 		}
@@ -48,7 +48,7 @@ func (f *Sniffer) buildBruteForceParams() ([]interface{}, error) {
 }
 
 // generateParams returns a random parameter for the given type, returns an error if the kind is not supported
-func generateParam(t reflect.Type) (interface{}, error) {
+func generateBruteForceParam(t reflect.Type) (interface{}, error) {
 	var value interface{}
 	var err error
 
@@ -60,7 +60,7 @@ func generateParam(t reflect.Type) (interface{}, error) {
 	case reflect.String:
 		value = helper.GetRandString()
 	case reflect.Ptr:
-		value, err = generateValueForPointer(t.Elem())
+		value, err = generateBruteForceValueForPointer(t.Elem())
 		if err != nil {
 			return nil, err
 		}
@@ -71,8 +71,8 @@ func generateParam(t reflect.Type) (interface{}, error) {
 	return value, nil
 }
 
-// generateValueForPointer generates a random pointer for a given reflect type
-func generateValueForPointer(t reflect.Type) (interface{}, error) {
+// generateBruteForceValueForPointer generates a random pointer for a given reflect type
+func generateBruteForceValueForPointer(t reflect.Type) (interface{}, error) {
 	var value interface{}
 
 	switch t.Kind() {
