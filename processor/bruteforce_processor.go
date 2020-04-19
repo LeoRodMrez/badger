@@ -3,6 +3,7 @@ package processor
 import (
 	"errors"
 	"fmt"
+	"github.com/LeoRodMrez/badger/constants"
 	"reflect"
 
 	"github.com/LeoRodMrez/badger/helper"
@@ -102,7 +103,10 @@ func (f *Sniffer) executeFunc(in []reflect.Value) (panic bool) {
 // ValidateBruteForceInput validates the input
 func (f *Sniffer) ValidateBruteForceInput() error {
 	if !helper.IsFunc(f.Function) {
-		return errors.New("given param is not a function")
+		return errors.New(constants.NotAFunctionError)
+	}
+	if helper.GetNumberOfParams(f.Function) < 1{
+		return errors.New(constants.BruteForceSniffInvalidParamsError)
 	}
 	return nil
 }

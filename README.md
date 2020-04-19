@@ -1,9 +1,9 @@
 # Badger
 Badger helps you find uncontrolled panics in your go functions.
 
-It analyzes the parameters of a given go function and performs executions using zero, limit-range and conflicting values. If a *panic* arises from the function, an error will be returned with the corresponding information.
+It analyzes the parameters of a given function and performs executions using zero, limit-range and conflicting values. If a *panic* arises from the function, an error will be returned with the corresponding information.
 
-The ultimate goal of Badger is to enhance defensive programming on your code.
+The ultimate goal of Badger is to enhance **defensive programming** on your code.
 
 ### How to use me: 
 

@@ -82,6 +82,46 @@ func GetRandStringPtr() *string {
 	return &a
 }
 
+// GetStringSniffValues returns the values to be executed by the processor for a specific string parameter
+func GetStringSniffValues() []string {
+	return []string{"","badger", constants.Charset}
+}
+
+// GetBoolSniffValues returns the values to be executed by the processor for a specific bool parameter
+func GetBoolSniffValues() []bool {
+	return []bool{true, false}
+}
+
+// GetIntSniffValues returns the values to be executed by the processor for a specific int parameter
+func GetIntSniffValues() []int {
+	return []int{0,constants.MaxInt,constants.MinInt,constants.MaxInt/2, constants.MinInt/2}
+}
+
+// GetStringPtrSniffValues returns the values to be executed by the processor for a specific pointer to string parameter
+func GetStringPtrSniffValues() []*string {
+	a := ""
+	b := "badger"
+	c := constants.Charset
+	return []*string{nil,&a,&b,&c}
+}
+
+// GetBoolPtrSniffValues returns the values to be executed by the processor for a specific pointer to bool parameter
+func GetBoolPtrSniffValues() []*bool {
+	a := true
+	b := false
+	return []*bool{nil,&a,&b}
+}
+
+// GetIntPtrSniffValues returns the values to be executed by the processor for a specific pointer to int parameter
+func GetIntPtrSniffValues() []*int {
+	a := 0
+	b := constants.MaxInt
+	c := constants.MinInt
+	d := constants.MaxInt/2
+	e := constants.MinInt/2
+	return []*int{nil,&a,&b,&c,&d,&e}
+}
+
 // willReturnZeroValue decides whether the rand function will return the zero value or generate a random one
 func willReturnZeroValue() bool {
 	if rand.Intn(3) == 1 {
@@ -90,3 +130,5 @@ func willReturnZeroValue() bool {
 		return false
 	}
 }
+
+
