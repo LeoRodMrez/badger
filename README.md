@@ -1,4 +1,4 @@
-# Badger ![Go](https://github.com/LeoRodMrez/badger/workflows/Go/badge.svg)
+# Badger ![Go](https://github.com/LeoRodMrez/badger/workflows/Go/badge.svg?branch=master)
 Badger helps you find uncontrolled panics in your go functions.
 
 It analyzes the parameters of a given function and performs executions using zero, limit-range and conflicting values. If a *panic* arises from the function, an error will be returned with the corresponding information.
