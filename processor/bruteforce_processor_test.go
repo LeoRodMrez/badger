@@ -143,7 +143,7 @@ func TestSniffFunction(t *testing.T) {
 			Name: "(*int,*bool,*string) with explicit panic",
 			GivenInput: Sniffer{
 				Function: func(a *int,b *bool,c *string) {
-
+					panic("panicking")
 				},
 			},
 			ExpectedError: true,
